@@ -32,4 +32,6 @@ proguard/
 
 *.DS_Store
 
+src/java/
+
 captures/
