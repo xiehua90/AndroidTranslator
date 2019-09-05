@@ -23,7 +23,6 @@ public class ConvertUI extends JFrame {
         jPanel.add(outTextField, BorderLayout.CENTER);
         jPanel.add(addOutBtn, BorderLayout.EAST);
 
-
         getContentPane().add(jPanel, BorderLayout.NORTH);
 
         this.setTitle("Android翻译转换工具");

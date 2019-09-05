@@ -56,7 +56,7 @@ public class ExcelParse implements Parse {
             for (int i = titleRow.getFirstCellNum(); i < titleRow.getLastCellNum(); i++) {
                 String value = getCellStringValueFromRow(titleRow, i);
                 if (value != null && !value.trim().equals("")) {
-                    if (colName.keySet().contains(value.trim())) {
+                    if (colName.containsKey(value.trim())) {
                         throw new NumberFormatException("Cannot exist the same column name \'" + value.trim() + "\' in Excel: " + path);
                     }
                     colName.put(value.trim(), i);
