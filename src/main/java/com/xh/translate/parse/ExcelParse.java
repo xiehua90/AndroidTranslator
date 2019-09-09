@@ -1,7 +1,6 @@
 package com.xh.translate.parse;
 
 
-
 import com.xh.translate.PageConfig;
 import com.xh.translate.bean.Page;
 import com.xh.translate.bean.Word;
@@ -20,7 +19,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -70,7 +68,7 @@ public class ExcelParse implements Parse {
                     Row row = sheet.getRow(i);
                     if (row == null) continue;
                     try {
-                        Class c = Class.forName("com.xh.translate.bean.Word");
+                        Class c = Word.class;
                         Object ob = c.newInstance();
                         for (String name : page.getPropertyList()) {
                             int colIndex = page.getColumnIndexIgnoreCase(name);
@@ -107,13 +105,7 @@ public class ExcelParse implements Parse {
                         field.setAccessible(true);
                         field.set(ob, map);
                         words.add((Word) ob);
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InstantiationException e) {
-                        e.printStackTrace();
-                    } catch (NoSuchFieldException e) {
+                    } catch (IllegalAccessException | InstantiationException | NoSuchFieldException e) {
                         e.printStackTrace();
                     }
                 }
@@ -190,7 +182,7 @@ public class ExcelParse implements Parse {
                 Row row = sheet.createRow(i + 1);
                 try {
                     List<String> property = page.getPropertyList();
-                    Class c = Class.forName("com.xh.translate.bean.Word");
+                    Class c = Word.class;
 
                     if (property != null) {
                         for (String col : property) {
@@ -241,10 +233,7 @@ public class ExcelParse implements Parse {
                             }
                         }
                     }
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (NoSuchFieldException e) {
-                } catch (IllegalAccessException e) {
+                } catch (NoSuchFieldException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
             }
@@ -254,8 +243,6 @@ public class ExcelParse implements Parse {
                 wb.write(out);
                 out.close();
                 System.out.println("File write over: " + path);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }

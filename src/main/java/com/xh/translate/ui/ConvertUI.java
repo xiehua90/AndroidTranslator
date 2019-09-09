@@ -1,6 +1,5 @@
 package com.xh.translate.ui;
 
-import com.sun.deploy.panel.JavaPanel;
 
 import javax.swing.*;
 import java.awt.*;

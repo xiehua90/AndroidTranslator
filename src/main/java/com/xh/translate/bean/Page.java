@@ -1,12 +1,13 @@
 package com.xh.translate.bean;
 
 import com.xh.translate.PageConfig;
+import com.xh.translate.utils.DateUtils;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Page {
     private Map<String, Integer> columnNameMap;
@@ -110,20 +111,15 @@ public class Page {
     }
 
     public List<String> getWordPropertyList() {
-        try {
-            Class c = Class.forName("com.xh.translate.bean.Word");
-            List<String> list = new ArrayList<>();
-            for (Field f : c.getDeclaredFields()) {
-                String proName = f.getName();
-                if (!proName.equals("values")) {
-                    list.add(proName);
-                }
+        Class c = Word.class;
+        List<String> list = new ArrayList<>();
+        for (Field f : c.getDeclaredFields()) {
+            String proName = f.getName();
+            if (!proName.equals("values")) {
+                list.add(proName);
             }
-            return list;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
-        return null;
+        return list;
     }
 
     private boolean hasLocale(String[] array, String locale) {
@@ -264,5 +260,61 @@ public class Page {
 
         return s1.trim().equalsIgnoreCase(s2.trim());
     }
+
+    /**
+     *  获取重复字符
+     * */
+    public Map<String, List<List<XmlPair>>> getAllDuplicatePairIgnoreSpecCh(PageConfig config) {
+        if (config == null || config.getDuplicateLocale() == null) {
+            return null;
+        }
+        String[] duplicateCol = config.getDuplicateLocale();
+
+        Map<String, List<List<XmlPair>>> result = new HashMap<>();
+
+        for (String lan : duplicateCol) {
+            if (lan != null && !lan.trim().equals("")) {
+                List<List<Word>> list = getAllDuplicateWordIgnoreSpecCh(lan);
+                List<List<XmlPair>> values = new ArrayList<>();
+
+                if (list == null) return null;
+                for (List<Word> l : list) {
+                    if (l == null) continue;
+                    List<XmlPair> group = new ArrayList<>();
+                    for (Word w : l) {
+                        if (w == null) continue;
+                        XmlPair pair = w.getXmlPair(lan);
+                        if (pair != null) {
+                            group.add(pair);
+                            System.out.println(pair.toString());
+                        }
+                    }
+                    values.add(group);
+                }
+                result.put(lan, values);
+            }
+        }
+
+        return result;
+
+//        //文件输出
+//        FileType type = FileType.newInstance(desPath);
+//        File parent = type.equals(FileType.DIR) ? new File(desPath) : new File(desPath).getParentFile();
+//
+//        File file = new File(parent, "duplicate_" + DateUtils.getDate() + ".xml");
+//        try {
+//            FileWriter writer = new FileWriter(file);
+//            for (XmlPair pair : all) {
+//                writer.write(pair.toString() + "\n");
+//            }
+//            writer.flush();
+//            writer.close();
+//            System.out.println("write over:" + file.getPath());
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+    }
+
 
 }

@@ -55,7 +55,7 @@ public class TxtParse implements Parse {
                 if (line.trim().equals("")) continue;
                 String[] array = line.split(TAB);
                 try {
-                    Class c = Class.forName("com.xh.translate.bean.Word");
+                    Class c = Word.class;
                     Object ob = c.newInstance();
                     for (String name : page.getPropertyList()) {
                         int colIndex = page.getColumnIndexIgnoreCase(name);
@@ -97,8 +97,6 @@ public class TxtParse implements Parse {
                     field.setAccessible(true);
                     field.set(ob, map);
                     words.add((Word) ob);
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } catch (InstantiationException e) {
@@ -166,7 +164,7 @@ public class TxtParse implements Parse {
                 String[] row = new String[maxCol];
                 try {
                     List<String> property = page.getPropertyList();
-                    Class c = Class.forName("com.xh.translate.bean.Word");
+                    Class c = Word.class;
 
                     if (property != null) {
                         for (String col : property) {
@@ -213,8 +211,6 @@ public class TxtParse implements Parse {
                         }
                     }
 
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
                 } catch (NoSuchFieldException e) {
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();

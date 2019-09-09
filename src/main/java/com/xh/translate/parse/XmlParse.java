@@ -19,8 +19,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class XmlParse implements Parse {
+    private final static String regex = "<\\s*string\\s+name=\\s*\"(.*?)\".*?>([\\s\\S]*?)</\\s*string\\s*>";
     private final String xmlStringName = "strings.xml";
-    private final String regex = "<\\s*string\\s+name=\\s*\"(.*?)\".*?>([\\s\\S]*?)</\\s*string\\s*>";
     private final String dirPrefix = "values";
 
     /**
