@@ -6,13 +6,14 @@ import com.xh.translate.bean.Word
 class PageUtils {
 
     companion object{
-        fun merge(list: List<Page>): Page{
-            return Page()
+        fun merge(list: List<Page>): Page?{
+            return null
         }
 
 
-        fun getConflict(list: List<Page>): List<List<Word>>{
-            //unimplement
+        fun getConflict(list: Map<String, Page>): List<List<Word>>?{
+            //
+            return null;
         }
     }
 
